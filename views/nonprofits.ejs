@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- THE HEAD TAG PARTIAL -->
+<%- include("partials/head") %>
+
+    <body>
+        <!-- THE HEADER TAG PARTIAL -->
+        <%- include("partials/header") %>
+            <main>
+                <!-- *********DISPLAY OUR GOALS********* -->
+                <h1 class="title">My Nonprofits List</h1>
+                The <%=nonprofit?.id; %> is <%=nonprofit?.name; %>.
+                <a href="/auth/logout"><button class="button">Logout</button></a>
+                <% for (nonprofit of nonprofits) { %>
+                    <h2 class="subtitle is-3">
+                        <%= nonprofit.name %>
+                        <%= nonprofit.id %>
+                    </h2>
+                    <% } %>
+
+                    <% if(nonprofit?.iHaveDonated===true){ %>
+                        <!-- previously donated goes here -->
+                        I have donated
+                        <% } else { %>
+                            <!-- not donated yet gotes here-->
+                            I have not donated
+                            <% } %>
+                        <!-- **********NEW nonprofit FORM**************** -->
+                        <form action="/nonprofits" method="post">
+                            <input type="text" placeholder="new nonprofit" name="text" />
+                            <input type="submit" value="add nonprofit" />
+                        </form>
+            </main>
+            <!-- THE HEAD TAG PARTIAL -->
+            <%- include("partials/footer") %>
+    </body>
+
+</html>
