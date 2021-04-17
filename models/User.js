@@ -1,22 +1,21 @@
 // Import Schema and Model
-const { Schema, model } = require("../db/connections.js")
 
-// The Goal Schema-defined a Nonprofit schema 
-const Nonprofit = new Schema({
-  id: String,
-  name: String,
-  iHaveDonated: Boolean,
+const mongoose = require('mongoose');
+const { Schema, model } = require("../db/connection.js")
+
+// The Goal Schema-defined a goal schema 
+const Image = new Schema({
+  url : {type:String},
+  iHaveDonated: Boolean
 })
-
-// const Nonprofit = mongoose.model("Nonprofit", nonprofitSchema);
 
 // The User Schema- embedded a goal schema inside of a user schema
 const UserSchema = new Schema(
   {
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    // The nonprofits property defined as an array of objects that match the Goal schema
-    nonprofits: [Nonprofit],
+    // The goals property defined as an array of objects that match the Goal schema
+    images: [Image],
   },
   { timestamps: true }
 )
@@ -26,3 +25,7 @@ const User = model("User", UserSchema)
 
 // Export the User Model
 module.exports = User
+
+
+//I cant expoor the image and the User on the same file!!! NEED help
+// module.exports = new mongoose.model('Image', Image);

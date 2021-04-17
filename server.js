@@ -1,24 +1,42 @@
 // grab environment variables
 require("dotenv").config();
+const fs = require('fs');
+const path = require('path');
 // IMPORT EXPRESS
 const express = require("express");
 // IMPORT DATABASE CONNECTION
-const mongoose = require("./db/connections");
+const mongoose = require("./db/connection");
 // IMPORT MERCED LOGGER
 const { log } = require("mercedlogger");
 //IMPORT MIDDLEWARE
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 // GET PORT FROM ENV OR DEFAULT PORT
 const PORT = process.env.PORT || "2021";
 const SECRET = process.env.SECRET || "secret"
-const HomeRouter = require("./routes/index.js");
+const HomeRouter = require("./routes/home.js");
 // Sessions Middleware
 const session = require("express-session"); // create session cookies
 const connect = require("connect-mongodb-session")(session) // store cookies in mongo
-const Users = require("./models/User.js");
-const Nonprofit = require("./models/User.js");
+
+
+///Set up multer for storage of uploads 
+// const multer = require('multer');
+ 
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+ 
+// const upload = multer({ storage: storage });
+
+// const imgModel = require('./models/User');
 /////////////////////////////////////
 // Create Express Application Object
 /////////////////////////////////////
@@ -56,6 +74,23 @@ app.use(
   })
 );
 
+// app.get('/', (req, res) => {
+//     imgModel.find({}, (err, items) => {
+//         if (err) {
+//             console.log(err);
+//             res.status(500).send('An error occurred', err);
+//         }
+//         else {
+//             res.render('imagesPage', { items: items });
+//         }
+//     });
+// });
+
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
+
+//I made an imagesPage.ejs but deleted it because mpngoose didnt like it. 
+ 
 /////////////////////////////////////
 // Routes and Routers
 /////////////////////////////////////
@@ -63,75 +98,10 @@ app.use(
 //HomeRouter
 app.use("/", HomeRouter);
 
-// INDEX
-app.get("/nonprofits", (req, res) => {
-  Nonprofit.find({}, (error, allNonprofits) => {
-    res.render("index", {
-      nonprofits: allNonprofits,
-    });
-  });
-});
-
-// NEW
-app.get("/nonprofits/new", (req, res) => {
-  res.render("new");
-});
-
-// DELETE
-app.delete("/nonprofits/:id", (req, res) => {
-  Nonprofit.findByIdAndDelete(req.params.id, (error, data) => {
-    res.redirect("/nonprofits");
-  });
-});
-
-// UPDATE
-app.put('/nonprofits/:id', (req, res) => {
-  if (req.body.iHaveDonated === "on"){
-    req.body.iHaveDonated = true;
-  } else {
-    req.body.iHaveDonated = false;
-  }
-  Nonprofit.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatedModel)=>{
-    res.redirect("/nonprofits");
-  })
-}
-)
-
-// CREATE
-app.post("/nonprofits", (req, res) => {
-  if (req.body.readyToEat === "on") {
-    req.body.readyToEat = true;
-  } else {
-    req.body.readyToEat = false;
-  }
-
-  Nonprofit.create(req.body, (error, createdNonprofit) => {
-    console.log(createdNonprofit);
-    res.redirect("/nonprofits");
-  });
-});
-
-// EDIT
-app.get("/nonprofits/:id/edit", (req, res) => {
-  Nonprofit.findById(req.params.id, (error, foundNonprofit) => {
-    res.render("edit.ejs", {
-      Nonprofit: foundNonprofit,
-    });
-  });
-});
-
-// SHOW
-
-app.get("/nonprofits/:id", (req, res) => {
-  Nonprofit.findById(req.params.id, (error, foundNonprofit) => {
-    res.render("show", { fruit: foundNonprofit });
-  });
-});
-
-
 /////////////////////////////////////
 // App Listener
 /////////////////////////////////////
 app.listen(PORT, () =>
   log.white("🚀 Server Launch 🚀", `Listening on Port ${PORT}`)
 );
+

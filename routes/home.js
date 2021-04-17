@@ -41,7 +41,7 @@ router.use(addUserToRequest)
 // Router Routes
 ////////////////////////////////
 router.get("/", (req, res) => {
-    res.render("index")
+    res.render("home")
 })
 
 // This is all Authentication
@@ -85,7 +85,7 @@ router.post("/auth/login", async (req, res) => {
         // create user session property
         req.session.userId = user._id
         //redirect to /goals
-        res.redirect("/nonprofits")
+        res.redirect("/images")
       } else {
         // send error is password doesn't match
         res.json({ error: "passwords don't match" })
@@ -108,25 +108,52 @@ router.get("/auth/logout", (req, res) => {
 })
 
 //This is all AUTHORIZATION
-
-router.get("/index", isAuthorized, async (req, res) => {
+//index
+router.get("/images", isAuthorized, async (req, res) => {
     // pass req.user to our template = that is the goals page!
-    res.render("index", {
-        nonprofits: req.user.index
+    res.render("images", {
+        images: req.user.images
     })
 })
 
+// NEW
+router.get("/images/new", isAuthorized, async (req, res) => {
+  res.render("new");
+});
 
+// // DELETE
+// router.delete("/images/:id", isAuthorized, async (req, res) => {
+//   Image.findByIdAndDelete(req.params.id, (error, data) => {
+//     res.redirect("/images");
+//   });
+// });
+
+router.put('/images/:id', (req, res) => {
+  if (req.body.iHaveDonated === "on"){
+    req.body.iHaveDonated = true;
+  } else {
+    req.body.iHaveDonated = false;
+  }
+  Image.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatedModel)=>{
+    res.redirect("/images");
+  })
+}
+)
+
+//create
 //goals create route when form submitted
-router.post("/index", isAuthorized, async (req, res) => {
+router.post("/images", isAuthorized, async (req, res) => {
+  try{
     // fetch up to date user
-    const user = await User.findOne({username: req.user.username})
+    const user = await User.findById(req.session.userId)
     // push the goal into the user within the Schema
-    console.log(req, res, user)
-    user.nonprofits.push(req.body)
+    user.images.push(req.body)
     await user.save()
     // redirect back to goals
-    res.redirect("/index")
+    res.redirect("/images") }
+    catch(error){
+      console.log(error)
+    }
 })
 
 //res.send is a test to make sure it works
