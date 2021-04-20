@@ -154,7 +154,7 @@ router.get('/nonprofits/:id', isAuthorized, (req, res) => {
 router.put("/:id", isAuthorized, async (req, res) => {
     const user = await User.findOne({ username: req.user.username })
     const id = req.params.id
-    const index = req.user.blogs.findIndex((nonprofit) => `${nonprofit._id}` === id)
+    const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id)
     req.user.blogs[index].title = req.body.title
     req.user.blogs[index].body = req.body.body
     req.user.save()
