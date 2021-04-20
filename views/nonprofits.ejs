@@ -18,9 +18,8 @@
             </form> -->
             <% for (nonprofit of nonprofits) { %>
             <img src="<%=nonprofit.url%>" alt="">
-            <% } %>
             <nav>
-            <a href="/nonprofits/new">Create a new NonProfit</a>
+                <a href="/nonprofits/new">Create a new NonProfit</a>
             </nav>
             <br />
             <br />
@@ -28,30 +27,31 @@
             <br />
             <br />
             <nav>
-            <a href="/nonprofits/edit">Edit NonProfit</a>
+                <a href="/nonprofits/<%=nonprofit.id; %>">Edit NonProfit</a>
             </nav>
-            <% for(let i=0; i < nonprofits.length; i++){ %>
-            <li>
-            The Non Profit Name: 
-            <a href="/nonprofits/<%=nonprofits[i].id; %>"> 
-                            
-                <%=nonprofits[i].name; %></a>
-                <br />
-                Donation Catagory: <%=nonprofits[i].theme; %>
-                <br />
-                Description <%=nonprofits[i].description; %>
-                <% if(nonprofits[i].iHaveDonated===true){ %>
+            
+                <li>
+                    The Non Profit Name: 
+                    <a href="/nonprofits/<%=nonprofit.id; %>"> 
+                        
+                        <%=nonprofit.name; %></a>
                         <br />
+                        Donation Catagory: <%=nonprofit.theme; %>
+                        <br />
+                        Description <%=nonprofit.description; %>
+                        <% if(nonprofit.iHaveDonated===true){ %>
+                            <br />
+                            
+                            I have Donated
+                            <% } else { %>
+                                I have not donated
+                                <% } %>
                                 
-                        I have Donated
-                        <% } else { %>
-                        I have not donated
-                        <% } %>
+                                <form action="/nonprofits/<%= nonprofit.id %>?_method=DELETE" method="POST">
+                                    <input type="submit" value="DELETE" />
                                     
-                <form action="/nonprofits/<%= nonprofits[i].id %>?_method=DELETE" method="POST">
-                    <input type="submit" value="DELETE" />
-                <% } %>
-                </form>
+                                </form>
+                                <% } %>
         </main>
             <!-- THE HEAD TAG PARTIAL -->
         <%- include("partials/footer") %>

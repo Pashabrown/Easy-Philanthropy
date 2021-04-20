@@ -6,6 +6,7 @@ const router = require("express").Router()
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 const Nonprofit = require("../models/User")
+
 //const auth = require("") <-- do I need this???
 //router.use(auth)<-- do I need this too?
 
@@ -143,7 +144,7 @@ router.delete("/nonprofits/:id", isAuthorized, async(req, res) => {
   await user.save()
   res.redirect("/nonprofits")
 });
-//
+//i need to render the nonprofit object in to the edit page
 router.get('/nonprofits/:id', isAuthorized, (req, res) => {
   const id = req.params.id
   const nonprofit = Nonprofit.findById(id)
@@ -151,36 +152,38 @@ router.get('/nonprofits/:id', isAuthorized, (req, res) => {
 });
 //update
 
-router.put("/:id", isAuthorized, async (req, res) => {
-    const user = await User.findOne({ username: req.user.username })
-    const id = req.params.id
-    const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id)
-    req.user.blogs[index].title = req.body.title
-    req.user.blogs[index].body = req.body.body
-    req.user.save()
-    res.redirect(`/nonprofits/${id}`)
-})
-// router.put('/nonprofits/:id', isAuthorized, async(req, res) => {
-//   if (req.body.iHaveDonated === "on"){
-//     req.body.iHaveDonated = true;
-//   } else {
-//     req.body.iHaveDonated = false;
-//   }
-//   const id = req.params.id
-//   await Nonprofit.findByIdAndUpdate(id, req.body, { new: true});
-  // const user = req.user
-  // const index = req.user.nonprofits.findIndex((nonprofit) => {
-  //   return id === `${nonprofit.id}`
-  // })
-  // user.nonprofits[index].url = req.body.url
-  // user.nonprofits[index].theme = req.body.theme
-  // user.nonprofits[index].name = req.body.name
-  // user.nonprofits[index].description = req.body.description
-  // user.nonprofits[index].iHaveDonated = req.body.iHaveDonated
-  // await user.save()
-//   res.redirect("/nonprofits")
-// }
-// )
+// router.put("/:id", isAuthorized, async (req, res) => {
+//     const user = await User.findOne({ username: req.user.username })
+//     const id = req.params.id
+//     const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id)
+//     req.user.blogs[index].title = req.body.title
+//     req.user.blogs[index].body = req.body.body
+//     req.user.save()
+//     res.redirect(`/nonprofits/${id}`)
+// })
+
+
+router.put('/nonprofits/:id', isAuthorized, async(req, res) => {
+  if (req.body.iHaveDonated === "on"){
+    req.body.iHaveDonated = true;
+  } else {
+    req.body.iHaveDonated = false;
+  }
+  // const id = req.params.id
+  // await Nonprofit.findByIdAndUpdate(id, req.body, { new: true});
+  const user = req.user
+  const index = req.user.nonprofits.findIndex((nonprofit) => {
+    return id === `${nonprofit.id}`
+  })
+  user.nonprofits[index].url = req.body.url
+  user.nonprofits[index].theme = req.body.theme
+  user.nonprofits[index].name = req.body.name
+  user.nonprofits[index].description = req.body.description
+  user.nonprofits[index].iHaveDonated = req.body.iHaveDonated
+  await user.save()
+  res.redirect("/nonprofits")
+}
+)
 
 //create
 //nonprofits create route when form submitted
