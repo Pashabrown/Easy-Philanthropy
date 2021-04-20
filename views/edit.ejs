@@ -7,15 +7,20 @@
 </head>
 
 <body>
-    <h1>Edit NonProfiit Page</h1>
+    <h1>Edit NonProfit Page</h1>
     <!--  NOTE: the form is pre-populated with values for the server-->
-    <form action="/nonprofits/<%=nonprofit.id%>?_method=PUT" method="POST">
-        Id:
-        <input type="text" name="id" value="<%= nonprofit.theme %>" /><br /><br />
-        Name:
+    <form action="/nonprofits/<%=nonprofit.id%>?_method="POST">
+        
+        url:
+        <input type="text" name="id" value="<%= nonprofit.url %>" /><br /><br />
+        theme:
+        <input type="text" name="theme" value="<%= nonprofit.theme %>" /><br /><br />
+        name:
         <input type="text" name="name" value="<%= nonprofit.name %>" /><br /><br />
+        description:
+        <input type="text" name="description" value="<%= nonprofit.description %>" /><br /><br />
         I Have Donated:
-        <input type="checkbox" name="readyToEat" <% if (nonprofit.iHaveDonated){ %>
+        <input type="checkbox" name="iHaveDonated" <% if (nonprofit.iHaveDonated){ %>
         checked
         <% } %>
             />

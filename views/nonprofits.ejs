@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- THE HEAD TAG PARTIAL -->
+<%- include("partials/head") %>
+
+    <body>
+        <!-- THE HEADER TAG PARTIAL -->
+        <%- include("partials/header") %>
+        <main>
+            <!-- *********DISPLAY OUR GOALS********* -->
+            <h1 class="title">My Nonprofits</h1>
+            <a href="/auth/logout"><button class="button">Logout</button></a>
+            
+            <!-- **********NEW GOALS FORM**************** -->
+            <!-- <form action="/nonprofits" method="post">
+                <input type="text" placeholder="new image" name="url" />
+                <input type="submit" value="add image" />
+            </form> -->
+            <% for (nonprofit of nonprofits) { %>
+            <img src="<%=nonprofit.url%>" alt="">
+            <% } %>
+            <nav>
+            <a href="/nonprofits/new">Create a new NonProfit</a>
+            </nav>
+            <br />
+            <nav>
+            <a href="/nonprofits/edit">Edit the NonProfit</a>
+            </nav>
+            <br />
+            <br />
+            <% for(let i=0; i < nonprofits.length; i++){ %>
+            <li>
+            The Non Profit Name: 
+            <a href="/nonprofits/<%=nonprofits[i].id; %>"> 
+                            
+                <%=nonprofits[i].name; %></a>
+                <br />
+                Donation Catagory: <%=nonprofits[i].theme; %>
+                <br />
+                Description <%=nonprofits[i].description; %>
+                <% if(nonprofits[i].iHaveDonated===true){ %>
+                        <br />
+                                
+                        I have Donated
+                        <% } else { %>
+                        I have not donated
+                        <% } %>
+                                    
+                <form action="/nonprofits/<%= nonprofits[i].id %>?_method=DELETE" method="POST">
+                    <input type="submit" value="DELETE" />
+                <% } %>
+                </form>
+        </main>
+            <!-- THE HEAD TAG PARTIAL -->
+        <%- include("partials/footer") %>
+
+
+    </body>
+
+</html>

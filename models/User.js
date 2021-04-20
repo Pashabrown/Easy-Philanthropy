@@ -1,21 +1,25 @@
 // Import Schema and Model
 
 const mongoose = require('mongoose');
+//a short version of importing the mongoose object to the models and schema
 const { Schema, model } = require("../db/connection.js")
 
-// The Goal Schema-defined a goal schema 
-const Image = new Schema({
+// The Schema
+const Nonprofit = new Schema({
   url : {type:String},
+  theme: String,
+  name: String,
+  description: String,
   iHaveDonated: Boolean
 })
 
-// The User Schema- embedded a goal schema inside of a user schema
+// The User Schema- embedded schema inside of a user schema
 const UserSchema = new Schema(
   {
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     // The goals property defined as an array of objects that match the Goal schema
-    images: [Image],
+    nonprofits: [Nonprofit],
   },
   { timestamps: true }
 )
