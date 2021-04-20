@@ -145,10 +145,14 @@ router.delete("/nonprofits/:id", isAuthorized, async(req, res) => {
   res.redirect("/nonprofits")
 });
 //i need to render the nonprofit object in to the edit page
-router.get('/nonprofits/:id', isAuthorized, (req, res) => {
+router.get('/nonprofits/:id', isAuthorized, async (req, res) => {
+  const user = await User.findOne({username: req.user.username})
   const id = req.params.id
-  const nonprofit = Nonprofit.findById(id)
-  res.render("edit", {nonprofit});
+  const nonprofit = user.nonprofits.id(id)
+  console.log(nonprofit)
+  res.render("edit", {
+    nonprofit
+  });
 });
 //update
 
@@ -169,19 +173,26 @@ router.put('/nonprofits/:id', isAuthorized, async(req, res) => {
   } else {
     req.body.iHaveDonated = false;
   }
+  const user = await User.findOne({ username: req.user.username })
+    const id = req.params.id
+    const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id)
+    req.user.nonprofits[index]= req.body
+    req.user.save()
+
+  res.redirect("/nonprofits")
   // const id = req.params.id
   // await Nonprofit.findByIdAndUpdate(id, req.body, { new: true});
-  const user = req.user
-  const index = req.user.nonprofits.findIndex((nonprofit) => {
-    return id === `${nonprofit.id}`
-  })
-  user.nonprofits[index].url = req.body.url
-  user.nonprofits[index].theme = req.body.theme
-  user.nonprofits[index].name = req.body.name
-  user.nonprofits[index].description = req.body.description
-  user.nonprofits[index].iHaveDonated = req.body.iHaveDonated
-  await user.save()
-  res.redirect("/nonprofits")
+//   const user = req.user
+//   const index = req.user.nonprofits.findIndex((nonprofit) => {
+//     return id === `${nonprofit.id}`
+//   })
+//   user.nonprofits[index].url = req.body.url
+//   user.nonprofits[index].theme = req.body.theme
+//   user.nonprofits[index].name = req.body.name
+//   user.nonprofits[index].description = req.body.description
+//   user.nonprofits[index].iHaveDonated = req.body.iHaveDonated
+//   await user.save()
+//   res.redirect("/nonprofits")
 }
 )
 

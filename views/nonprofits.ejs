@@ -16,18 +16,17 @@
                 <input type="text" placeholder="new image" name="url" />
                 <input type="submit" value="add image" />
             </form> -->
+
             <% for (nonprofit of nonprofits) { %>
-            <img src="<%=nonprofit.url%>" alt="">
+               
+            <img src="<%=nonprofit.url%>" alt="" width="420px" >
             <nav>
-                <a href="/nonprofits/new">Create a new NonProfit</a>
+                <a href="/nonprofits/new">Create</a>
             </nav>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+          
+
             <nav>
-                <a href="/nonprofits/<%=nonprofit.id; %>">Edit NonProfit</a>
+                <a href="/nonprofits/<%=nonprofit.id; %>">Edit</a>
             </nav>
             
                 <li>
@@ -51,6 +50,7 @@
                                     <input type="submit" value="DELETE" />
                                     
                                 </form>
+                                <hr />
                                 <% } %>
         </main>
             <!-- THE HEAD TAG PARTIAL -->

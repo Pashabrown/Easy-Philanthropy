@@ -9,7 +9,7 @@
 <body>
     <h1>Edit NonProfit Page</h1>
     <!--  NOTE: the form is pre-populated with values for the server-->
-    <form action="/nonprofits/<%=nonprofit.id%>?_method="POST">
+    <form action="/nonprofits/<%=nonprofit.id%>?_method=PUT" method="post">
         
         url:
         <input type="text" name="url" value="<%= nonprofit.url %>" /><br /><br />

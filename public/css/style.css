@@ -42,3 +42,23 @@ article img {
     align-items: center;
     margin: auto;
 }
+
+form {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: rgb(107, 175, 211);
+}
+
+nav {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: rgb(107, 175, 211);
+}
