@@ -1,19 +1,13 @@
-# BOILERPLATE DIRECTIONS
-
-- clone with command `npx degit githubusername/githubreponame#branchname projectName`
-
-- cd into new project folder
-
-- run `npm install` to install dependencies
-
-- rename template.env to .env
-
-- make sure to replace MONGODB_URL with a working Mongo URL
-
-- API Axios call still not complete. 
+ Tech 
+ - HTML 
+ - CSS 
+ - Javascript 
+ - Express
+ - MongoDB
+ - Bulma
 
 ## The Basic Idea 
-### A Tinder like UX that allows the user to shuffle through nonprofit organizations and easily donate to causes of their choice. 
+### An App that allows the user to shuffle through nonprofit organizations and easily donate to causes of their choice. 
 
 ## Difficulties 
 I did't want a seperate show page, so the index page provides all Crud. Made the steps a bit confusing in the routers.  
