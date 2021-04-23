@@ -95,7 +95,7 @@ app.use(
 // Routes and Routers
 /////////////////////////////////////
 
-//HomeRouter
+//MiddleWare for HomeRouter
 app.use("/", HomeRouter);
 
 /////////////////////////////////////

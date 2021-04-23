@@ -48,7 +48,7 @@ router.get("/", (req, res) => {
     res.render("home")
 })
 
-// This is all Authentication
+//////////////////////////////////////// This is all Authentication
 
 //SIGNUP ROUTES
 router.get("/auth/signup", (req, res) => {
@@ -119,7 +119,7 @@ router.get("/auth/logout", (req, res) => {
   //}))
 })
 
-//This is all AUTHORIZATION
+///////////////////////////////////////////////////////////////////
 //index
 router.get("/nonprofits", (req, res) => {
     // pass req.user to our template = that is the goals page!
@@ -144,6 +144,8 @@ router.delete("/nonprofits/:id", isAuthorized, async(req, res) => {
   await user.save()
   res.redirect("/nonprofits")
 });
+
+//edit page
 //i need to render the nonprofit object in to the edit page
 router.get('/nonprofits/:id', isAuthorized, async (req, res) => {
   const user = await User.findOne({username: req.user.username})
@@ -166,7 +168,7 @@ router.get('/nonprofits/:id', isAuthorized, async (req, res) => {
 //     res.redirect(`/nonprofits/${id}`)
 // })
 
-
+//update
 router.put('/nonprofits/:id', isAuthorized, async(req, res) => {
   if (req.body.iHaveDonated === "on"){
     req.body.iHaveDonated = true;
@@ -175,6 +177,7 @@ router.put('/nonprofits/:id', isAuthorized, async(req, res) => {
   }
   const user = await User.findOne({ username: req.user.username })
     const id = req.params.id
+    console.log(req.params)
     const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id)
     req.user.nonprofits[index]= req.body
     req.user.save()
@@ -213,7 +216,7 @@ router.post("/nonprofits", async (req, res) => {
     res.redirect("/nonprofits") 
    
 })
-//show
+//show- I dont have a show page 
 // router.get("/:id", async (req, res) => {
 //   const id = req.params.id;
 //   const index = req.user.nonprofits.findIndex((nonprofit) => `${nonprofit._id}` === id);
